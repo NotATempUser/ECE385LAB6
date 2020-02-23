@@ -5,14 +5,17 @@ module MUX_BUS (input logic [15:0] A,B,C,D,
 	always_comb
 	begin
 	logic [3:0] S;
-	S = {GateALU, GatePC,GateMARMUX, GateMDR};
+	S[0] = GateALU;
+	S[1] = GatePC;
+	S[2] = GateMARMUX;
+	S[3] = GateMDR;
 		case (S)
-	
-			GateALU			: Z = A;				//Passs GateALU
-			GatePC			: Z = B;				//Pass GatePC
-			GateMARMUX		: Z = C;				//Pass GateMARMUX
-			GateMDR			: Z = D;				//Pass GateMDR
-			default			: Z = 4'bZZZZ;		// Else set to high impedence
+			default			: Z = 4'bzzzzzzzzzzzzzzzz;		// Else set to high impedence
+			4'b0001			: Z = A;				//Passs GateALU
+			4'b0010			: Z = B;				//Pass GatePC
+			4'b0100			: Z = C;				//Pass GateMARMUX
+			4'b1000			: Z = D;				//Pass GateMDR
+			
 		endcase
 	end
 

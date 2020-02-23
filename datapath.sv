@@ -4,8 +4,10 @@ module datapath(
 		logic  LD_PC, LD_IR, LD_MAR, LD_MDR, GateALU, GatePC, GateMARMUX, GateMDR, Reset_ah, Clk,
 		input
 		logic [1:0] PCMUX, ADDR2MUX, ALUK,
+		input
+		logic [15:0] MDR_In,
 		output
-		logic [15:0]IR, PC, MAR, MDR, MDR_In
+		logic [15:0]IR, PC, MAR, MDR
 		);
 
 
