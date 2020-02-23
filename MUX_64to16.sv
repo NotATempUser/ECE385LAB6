@@ -1,6 +1,6 @@
 module MUX_64to16 (input logic [15:0] A,B,C,D,
 						 input logic [1:0] S,
-						 output logic [15:0] Z)
+						 output logic [15:0] Z);
 		  
 	always_comb
 	begin
@@ -9,6 +9,8 @@ module MUX_64to16 (input logic [15:0] A,B,C,D,
 		2'b01		: Z = B;
 		2'b10		: Z = C;
 		default	: Z = D;
+	endcase
 	end
+
 
 endmodule
