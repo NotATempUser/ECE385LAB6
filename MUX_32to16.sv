@@ -8,5 +8,6 @@ module MUX_32to16 (input logic [15:0] A,B,
 		1'b0		: Z = A;
 		default	: Z = B;
 	endcase
-
+	end
+	
 endmodule

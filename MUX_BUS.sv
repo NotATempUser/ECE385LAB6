@@ -10,7 +10,7 @@ module MUX_BUS (input logic [15:0] A,B,C,D,
 	S[2] = GateMARMUX;
 	S[3] = GateMDR;
 		case (S)
-			default			: Z = 4'bzzzzzzzzzzzzzzzz;		// Else set to high impedence
+			default			: Z = 16'bzzzzzzzzzzzzzzzz;		// Else set to high impedence
 			4'b0001			: Z = A;				//Passs GateALU
 			4'b0010			: Z = B;				//Pass GatePC
 			4'b0100			: Z = C;				//Pass GateMARMUX
