@@ -14,6 +14,13 @@ module lab6_toplevel( input logic [15:0] S,
                       output logic CE, UB, LB, OE, WE,
                       output logic [19:0] ADDR,
                       inout wire [15:0] Data);
+//sycronize inputs
+logic RESET,RUN,CONTINUE;
+
+sync C0 (.Clk(Clk), .d(Reset), .q(RESET));
+sync C1 (.Clk(Clk), .d(Run), .q(RUN));
+sync C2 (.Clk(Clk), .d(Continue), .q(CONTINUE));
+
 
 slc3 my_slc(.*);
 // Even though test memory is instantiated here, it will be synthesized into 
