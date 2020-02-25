@@ -1,27 +1,28 @@
-module Reg_File (input logic SR1, DR, LD.REG, Clk, Reset,
+module Reg_File (input logic SR1, DR, LD_REG, Clk, Reset,
 					  input logic [2:0] SR2,
-					  input logic [15,0] IR, BUS,
-					  output logic [15,0] SR1_OUT, SR2_OUT);
+					  input logic [15:0] IR, BUS,
+					  output logic [15:0] SR1_OUT, SR2_OUT);
 	
-	logic DR_Select, SR1_Select;
+	logic [3:0] DR_Select, SR1_Select;
 	logic [7:0] LD;
 	
 	
 //need control logic/mux to pick a desitination regster
 	always_comb
-		case(DR)
+	begin
+		case (DR)
 		1'b0		: DR_Select = IR[11:9];
 		default	: DR_Select = 3'b111;
 		endcase
 		
 		
-		case(SR1)
+		case (SR1)
 		1'b0		: SR1_Select = IR[8:6];
 		default	: SR1_Select = IR[11:9];
 		endcase
 		
 		
-		if(LD.REG)
+		if(LD_REG)
 			case(DR_Select)
 			3'b000		: LD=8'b00000001;
 			3'b001		: LD=8'b00000010;
@@ -37,7 +38,7 @@ module Reg_File (input logic SR1, DR, LD.REG, Clk, Reset,
 			begin
 				LD=8'b00000000;
 			end
-		end
+	
 		
 	end
 	
