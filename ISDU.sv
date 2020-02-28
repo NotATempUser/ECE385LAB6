@@ -55,7 +55,7 @@ module ISDU (   input logic         Clk,
 									Mem_WE
 				);
 
-	enum logic [3:0] {  Halted, 
+	enum logic [5:0] {  Halted, 
 						PauseIR1, 
 						PauseIR2, 
 						S_18, 
@@ -68,10 +68,12 @@ module ISDU (   input logic         Clk,
 						S_09,
 						S_06,
 						S_25,
+						S_25_1,
 						S_27,
 						S_07,
 						S_23,
 						S_16,
+						S_16_1,
 						S_04,
 						S_21,
 						S_12,
@@ -165,7 +167,7 @@ module ISDU (   input logic         Clk,
 					4'b0111 :
 						Next_state = S_07;	//STR
 					4'b1101 :
-						Next_state = S_PauseIR1 //PAUSE (reusing from week1)
+						Next_state = PauseIR1; //PAUSE (reusing from week1)
 
 					default : 
 						Next_state = S_18;
@@ -248,16 +250,16 @@ module ISDU (   input logic         Clk,
 			S_05 :
 				begin
 					SR2MUX = IR_5;
-					ALUK = //AND
-					GATEALU = 1'b1;
+					ALUK = 2'b01;
+					GateALU = 1'b1;
 					LD_REG = 1'b1;
 					DRMUX = 1'b0;
 					SR1MUX = 1'b0;
 				end
 			S_09 :
 				begin
-					ALUK = //NOT
-					GATEALU = 1'b1;
+					ALUK = 2'b11;
+					GateALU = 1'b1;
 					LD_REG = 1'b1;
 					DRMUX = 1'b0;
 					SR1MUX = 1'b0;
@@ -267,11 +269,11 @@ module ISDU (   input logic         Clk,
 					GateMARMUX = 1'b1;
 					ADDR2MUX = 2'b10;
 					ADDR1MUX = 1'b0;
-					LD.MAR = 1'1b1;
+					LD_MAR = 1'b1;
 				end
 			S_25 : 
 				Mem_OE = 1'b0;
-			S_25_2 : 
+			S_25_1 : 
 				begin 
 					Mem_OE = 1'b0;
 					LD_MDR = 1'b1;
@@ -280,26 +282,62 @@ module ISDU (   input logic         Clk,
 				begin 
 					LD_REG = 1'b1;
 					DRMUX = 1'b0;
-					LD.CC = 1'b1;
+					LD_CC = 1'b1;
 				end
 			S_07 :
 				begin
 					GateMARMUX = 1'b1;
 					ADDR2MUX = 2'b10;
 					ADDR1MUX = 1'b0;
-					LD.MAR = 1'1b1;
+					LD_MAR = 1'b1;
 				end
 			S_23 :
 				begin
-					MIO.EN = 1'b0;
-					LD.MDR = 1'b1;
+					LD_MDR = 1'b1;
 					GateALU = 1'b1;
 					ALUK = 2'b10;
+					SR1MUX = 1'b0;
 				end 
 			S_16 :
 				begin
-					MEM_WE = 1'b0;
+					Mem_WE = 1'b0;
+				end
+			S_16_1 :
+				begin
+					Mem_WE = 1'b0;
+				end
+			S_04 :
+				begin
+					LD_REG = 1'b1;
+					DRMUX = 1'b1;
+					GatePC = 1'b1;
 				end 
+			S_21 :
+				begin
+					PCMUX = 2'b01;
+					ADDR1MUX = 1'b1;
+					ADDR2MUX = 2'b00;
+					LD_PC = 1'b1;
+				end 
+			S_12 :
+				begin
+					SR1MUX = 1'b1;
+					ALUK = 2'b10;
+					GateALU = 1'b1;
+					PCMUX = 2'b00;
+					LD_PC = 1'b1;
+				end
+			S_00 :
+				begin
+					LD_BEN = 1'b1;
+				end
+			S_22 :
+				begin 
+					LD_PC = 1'b1;
+					PCMUX = 2'b01;
+					ADDR2MUX = 2'b01;
+					ADDR1MUX = 1'b1;
+				end
 			default : ;
 		endcase
 	end 
