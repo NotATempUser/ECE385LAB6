@@ -63,7 +63,20 @@ module ISDU (   input logic         Clk,
 						S_33_2, 
 						S_35, 
 						S_32, 
-						S_01}   State, Next_state;   // Internal state logic
+						S_01,
+						S_05,
+						S_09,
+						S_06,
+						S_25,
+						S_27,
+						S_07,
+						S_23,
+						S_16,
+						S_04,
+						S_21,
+						S_12,
+						S_00,
+						S_22}   State, Next_state;   // Internal state logic
 		
 	always_ff @ (posedge Clk)
 	begin
@@ -119,7 +132,8 @@ module ISDU (   input logic         Clk,
 			S_33_2 : 
 				Next_state = S_35;
 			S_35 : 
-				Next_state = PauseIR1;
+				Next_state = S_32;
+			//	Next_state = PauseIR1;   From Week 1
 			// PauseIR1 and PauseIR2 are only for Week 1 such that TAs can see 
 			// the values in IR.
 			PauseIR1 : 
@@ -135,17 +149,62 @@ module ISDU (   input logic         Clk,
 			S_32 : 
 				case (Opcode)
 					4'b0001 : 
-						Next_state = S_01;
-
-					// You need to finish the rest of opcodes.....
+						Next_state = S_01; 	//ADD
+					4'b0101 :
+						Next_state = S_05; 	//AND
+					4'b1001 :
+						Next_state = S_09; 	//NOT
+					4'b0000 :
+						Next_state = S_00; 	//BR
+					4'b1100 :
+						Next_state = S_12; 	//JMP
+					4'b0100 :
+						Next_state = S_04;	//JSR
+					4'b0110 :
+						Next_state = S_06;	//LDR
+					4'b0111 :
+						Next_state = S_07;	//STR
+					4'b1101 :
+						Next_state = S_PauseIR1 //PAUSE (reusing from week1)
 
 					default : 
 						Next_state = S_18;
 				endcase
-			S_01 : 
+			S_01 : 						//ADD
+				Next_state = S_18;		
+			S_05 :						//AND
 				Next_state = S_18;
-
-			// You need to finish the rest of states.....
+			S_09 :						//NOT
+				Next_state = S_18;
+			S_06 :						//LDR
+				Next_state = S_25;
+			S_25 :							//MDR<-M[MAR]
+				Next_state = S_25_1;
+			S_25_1 :
+				Next_state = S_27;
+			S_27 :							//DR<-MDR set CC
+				Next_state = S_18;
+			S_07 :						//STR
+				Next_state = S_23;
+			S_23 :							//MDR<-SR
+				Next_state = S_16;		
+			S_16 :							//M[MAR]<-MDR
+				Next_state = S_16_1;
+			S_16_1 :
+				Next_state = S_18;
+			S_04 :						//JSR
+				Next_state = S_21;
+			S_21 :							//PC<-PC+off11
+				Next_state = S_18;
+			S_12 :						//JMP
+				Next_state = S_18;
+			S_00 :						//BR
+				if(BEN)
+					Next_state = S_22;
+				else
+					Next_state = S_18;
+			S_22 :							//PC<-PC+off9
+				Next_state = S_18;
 
 			default : ;
 
@@ -186,9 +245,61 @@ module ISDU (   input logic         Clk,
 					DRMUX = 1'b0;
 					SR1MUX = 1'b0;
 				end
-
-			// You need to finish the rest of states.....
-
+			S_05 :
+				begin
+					SR2MUX = IR_5;
+					ALUK = //AND
+					GATEALU = 1'b1;
+					LD_REG = 1'b1;
+					DRMUX = 1'b0;
+					SR1MUX = 1'b0;
+				end
+			S_09 :
+				begin
+					ALUK = //NOT
+					GATEALU = 1'b1;
+					LD_REG = 1'b1;
+					DRMUX = 1'b0;
+					SR1MUX = 1'b0;
+				end 
+			S_06 :
+				begin
+					GateMARMUX = 1'b1;
+					ADDR2MUX = 2'b10;
+					ADDR1MUX = 1'b0;
+					LD.MAR = 1'1b1;
+				end
+			S_25 : 
+				Mem_OE = 1'b0;
+			S_25_2 : 
+				begin 
+					Mem_OE = 1'b0;
+					LD_MDR = 1'b1;
+				end
+			S_27 :
+				begin 
+					LD_REG = 1'b1;
+					DRMUX = 1'b0;
+					LD.CC = 1'b1;
+				end
+			S_07 :
+				begin
+					GateMARMUX = 1'b1;
+					ADDR2MUX = 2'b10;
+					ADDR1MUX = 1'b0;
+					LD.MAR = 1'1b1;
+				end
+			S_23 :
+				begin
+					MIO.EN = 1'b0;
+					LD.MDR = 1'b1;
+					GateALU = 1'b1;
+					ALUK = 2'b10;
+				end 
+			S_16 :
+				begin
+					MEM_WE = 1'b0;
+				end 
 			default : ;
 		endcase
 	end 
