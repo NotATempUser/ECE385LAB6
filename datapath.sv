@@ -1,14 +1,15 @@
 module datapath(
 
 		input
-		logic  LD_PC, LD_LED, LD_IR, LD_MAR, LD_MDR, LD_BEN, LD_CC, GateALU, GatePC, GateMARMUX, GateMDR, Reset_ah, Clk, ADDR1MUX, MIO_EN, BEN,LD_REG,SR1MUX,DRMUX,
+		logic  LD_PC, LD_LED, LD_IR, LD_MAR, LD_MDR, LD_BEN, LD_CC, GateALU, GatePC, GateMARMUX, GateMDR, Reset_ah, Clk, ADDR1MUX, MIO_EN,LD_REG,SR1MUX,DRMUX,
 		input
 		logic [1:0] PCMUX, ADDR2MUX, ALUK,
 		input
 		logic [15:0] MDR_In,
 		output
 		logic [15:0]IR, PC, MAR, MDR,
-		output[11:0] LED
+		output logic[11:0] LED,
+		output logic BEN
 		);
 
 
@@ -46,7 +47,7 @@ module datapath(
 		
 		reg_1 BEN1( .Clk(Clk), .Reset(Reset_ah), .Load(LD_BEN), .D(BEN_in), .Data_Out(BEN));
 		
-	assign BEN_in = IR[11] & N_out + IR[10] & Z_out + IR[9] & P_out;
+	//assign BEN_in = IR[11] & N_out + IR[10] & Z_out + IR[9] & P_out;
 		
 		always_comb
 			begin
@@ -59,7 +60,7 @@ module datapath(
 				
 				ADDERout = ADDERin1 + ADDERin2;
 				
-		//		BEN_in = IR[11] & N_out + IR[10] & Z_out + IR[9] & P_out;
+				BEN_in = IR[11] & N_out | IR[10] & Z_out | IR[9] & P_out;
 				
 				if(BUS == 16'b0000000000000000)
 					Z = 1'b1;
@@ -76,8 +77,7 @@ module datapath(
 			begin
 			
 				if(LD_LED)
-					LED = IR[11:0];
-				else
-					LED = LED;
-		
+					LED <= IR[11:0];
+	
+			end
 		endmodule
