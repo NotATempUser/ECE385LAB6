@@ -245,7 +245,7 @@ module ISDU (   input logic         Clk,
 					GateALU = 1'b1;
 					LD_REG = 1'b1;
 					DRMUX = 1'b0;
-					SR1MUX = 1'b0;
+					SR1MUX = 1'b1;
 				end
 			S_05 :							//AND
 				begin
@@ -254,7 +254,7 @@ module ISDU (   input logic         Clk,
 					GateALU = 1'b1;
 					LD_REG = 1'b1;
 					DRMUX = 1'b0;
-					SR1MUX = 1'b0;
+					SR1MUX = 1'b1;
 				end
 			S_09 :							//NOT
 				begin
@@ -262,7 +262,7 @@ module ISDU (   input logic         Clk,
 					GateALU = 1'b1;
 					LD_REG = 1'b1;
 					DRMUX = 1'b0;
-					SR1MUX = 1'b0;
+					SR1MUX = 1'b1;
 				end 
 			S_06 :							//LDR
 				begin
