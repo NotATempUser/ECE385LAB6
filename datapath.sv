@@ -1,13 +1,14 @@
 module datapath(
 
 		input
-		logic  LD_PC, LD_IR, LD_MAR, LD_MDR, LD_BEN, LD_CC, GateALU, GatePC, GateMARMUX, GateMDR, Reset_ah, Clk, ADDR1MUX, MIO_EN, BEN,LD_REG,SR1MUX,DRMUX,
+		logic  LD_PC, LD_LED, LD_IR, LD_MAR, LD_MDR, LD_BEN, LD_CC, GateALU, GatePC, GateMARMUX, GateMDR, Reset_ah, Clk, ADDR1MUX, MIO_EN, BEN,LD_REG,SR1MUX,DRMUX,
 		input
 		logic [1:0] PCMUX, ADDR2MUX, ALUK,
 		input
 		logic [15:0] MDR_In,
 		output
 		logic [15:0]IR, PC, MAR, MDR
+		output[11:0] LED
 		);
 
 
@@ -30,7 +31,7 @@ module datapath(
 				
 			end
 		
-		MUX_BUS B1 (.A(ALUout), .B(PC), .C(MAR), .D(MDR), .GateALU(GateALU), .GatePC(GatePC), .GateMARMUX(GateMARMUX), .GateMDR(GateMDR), .Z(BUS));
+		MUX_BUS B1 (.A(ALUout), .B(PC), .C(ADDERout), .D(MDR), .GateALU(GateALU), .GatePC(GatePC), .GateMARMUX(GateMARMUX), .GateMDR(GateMDR), .Z(BUS));
 		MUX_64to16 PCMUX1 (.A(BUS), .B(ADDERout), .C(PCand1), .D(16'bzzzzzzzzzzzzzzzz), .S(PCMUX), .Z(PCin));															//look at case of high Z out, most likly doesnt occur
 		MUX_64to16 ADDR2MUX1 (.A(SEXT11), .B(SEXT9), .C(SEXT6), .D(16'b0000000000000000), .S(ADDR2MUX), .Z(ADDERin1));
 		MUX_32to16 ADDR1MUX1 (.A(SR1_OUT), .B(PC), .S(ADDR1MUX), .Z(ADDERin2));
