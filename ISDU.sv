@@ -172,13 +172,13 @@ module ISDU (   input logic         Clk,
 					default : 
 						Next_state = S_18;
 				endcase
-			S_01 : 						//ADD
+			S_01 : 							//ADD
 				Next_state = S_18;		
-			S_05 :						//AND
+			S_05 :							//AND
 				Next_state = S_18;
-			S_09 :						//NOT
+			S_09 :							//NOT
 				Next_state = S_18;
-			S_06 :						//LDR
+			S_06 :							//LDR
 				Next_state = S_25;
 			S_25 :							//MDR<-M[MAR]
 				Next_state = S_25_1;
@@ -186,7 +186,7 @@ module ISDU (   input logic         Clk,
 				Next_state = S_27;
 			S_27 :							//DR<-MDR set CC
 				Next_state = S_18;
-			S_07 :						//STR
+			S_07 :							//STR
 				Next_state = S_23;
 			S_23 :							//MDR<-SR
 				Next_state = S_16;		
@@ -194,13 +194,13 @@ module ISDU (   input logic         Clk,
 				Next_state = S_16_1;
 			S_16_1 :
 				Next_state = S_18;
-			S_04 :						//JSR
+			S_04 :							//JSR
 				Next_state = S_21;
 			S_21 :							//PC<-PC+off11
 				Next_state = S_18;
-			S_12 :						//JMP
+			S_12 :							//JMP
 				Next_state = S_18;
-			S_00 :						//BR
+			S_00 :							//BR
 				if(BEN)
 					Next_state = S_22;
 				else
@@ -238,7 +238,7 @@ module ISDU (   input logic         Clk,
 			PauseIR2: ;
 			S_32 : 
 				LD_BEN = 1'b1;
-			S_01 : 
+			S_01 : 							//ADD
 				begin 
 					SR2MUX = IR_5;
 					ALUK = 2'b00;
@@ -247,7 +247,7 @@ module ISDU (   input logic         Clk,
 					DRMUX = 1'b0;
 					SR1MUX = 1'b0;
 				end
-			S_05 :
+			S_05 :							//AND
 				begin
 					SR2MUX = IR_5;
 					ALUK = 2'b01;
@@ -256,7 +256,7 @@ module ISDU (   input logic         Clk,
 					DRMUX = 1'b0;
 					SR1MUX = 1'b0;
 				end
-			S_09 :
+			S_09 :							//NOT
 				begin
 					ALUK = 2'b11;
 					GateALU = 1'b1;
@@ -264,41 +264,41 @@ module ISDU (   input logic         Clk,
 					DRMUX = 1'b0;
 					SR1MUX = 1'b0;
 				end 
-			S_06 :
+			S_06 :							//LDR
 				begin
 					GateMARMUX = 1'b1;
 					ADDR2MUX = 2'b10;
 					ADDR1MUX = 1'b0;
 					LD_MAR = 1'b1;
 				end
-			S_25 : 
+			S_25 : 							//MDR<-M[MAR]
 				Mem_OE = 1'b0;
 			S_25_1 : 
 				begin 
 					Mem_OE = 1'b0;
 					LD_MDR = 1'b1;
 				end
-			S_27 :
+			S_27 :							//DR<-MDR and Set CC
 				begin 
 					LD_REG = 1'b1;
 					DRMUX = 1'b0;
 					LD_CC = 1'b1;
 				end
-			S_07 :
+			S_07 :							//STR
 				begin
 					GateMARMUX = 1'b1;
 					ADDR2MUX = 2'b10;
 					ADDR1MUX = 1'b0;
 					LD_MAR = 1'b1;
 				end
-			S_23 :
+			S_23 :							//MDR<-SR
 				begin
 					LD_MDR = 1'b1;
 					GateALU = 1'b1;
 					ALUK = 2'b10;
 					SR1MUX = 1'b0;
 				end 
-			S_16 :
+			S_16 :							//M[MAR]<-MDR
 				begin
 					Mem_WE = 1'b0;
 				end
@@ -306,20 +306,20 @@ module ISDU (   input logic         Clk,
 				begin
 					Mem_WE = 1'b0;
 				end
-			S_04 :
+			S_04 :							//JSR      Think state 20 needs to be added
 				begin
 					LD_REG = 1'b1;
 					DRMUX = 1'b1;
 					GatePC = 1'b1;
 				end 
-			S_21 :
+			S_21 :							//PC<-PC+off11
 				begin
 					PCMUX = 2'b01;
 					ADDR1MUX = 1'b1;
 					ADDR2MUX = 2'b00;
 					LD_PC = 1'b1;
 				end 
-			S_12 :
+			S_12 :							//JMP
 				begin
 					SR1MUX = 1'b1;
 					ALUK = 2'b10;
@@ -327,11 +327,11 @@ module ISDU (   input logic         Clk,
 					PCMUX = 2'b00;
 					LD_PC = 1'b1;
 				end
-			S_00 :
+			S_00 :							//BR
 				begin
 					LD_BEN = 1'b1;
 				end
-			S_22 :
+			S_22 :							//PC<-PC+off9
 				begin 
 					LD_PC = 1'b1;
 					PCMUX = 2'b01;
