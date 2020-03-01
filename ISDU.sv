@@ -280,6 +280,7 @@ module ISDU (   input logic         Clk,
 				end
 			S_27 :							//DR<-MDR and Set CC
 				begin 
+					GateMDR = 1'b1;		//need to push mdr to bus for reg file to read
 					LD_REG = 1'b1;
 					DRMUX = 1'b0;
 					LD_CC = 1'b1;
@@ -306,7 +307,7 @@ module ISDU (   input logic         Clk,
 				begin
 					Mem_WE = 1'b0;
 				end
-			S_04 :							//JSR      Think state 20 needs to be added
+			S_04 :							//JSR      
 				begin
 					LD_REG = 1'b1;
 					DRMUX = 1'b1;

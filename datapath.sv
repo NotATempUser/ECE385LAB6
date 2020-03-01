@@ -1,7 +1,7 @@
 module datapath(
 
 		input
-		logic  LD_PC, LD_IR, LD_MAR, LD_MDR, LD_BEN, LD_CC, GateALU, GatePC, GateMARMUX, GateMDR, Reset_ah, Clk, ADDR1MUX, MIO_EN, BEN,LD_REG,SR1MUX,
+		logic  LD_PC, LD_IR, LD_MAR, LD_MDR, LD_BEN, LD_CC, GateALU, GatePC, GateMARMUX, GateMDR, Reset_ah, Clk, ADDR1MUX, MIO_EN, BEN,LD_REG,SR1MUX,DRMUX,
 		input
 		logic [1:0] PCMUX, ADDR2MUX, ALUK,
 		input
@@ -11,7 +11,7 @@ module datapath(
 		);
 
 
-		logic [15:0]  BUS, PCin, PCand1, MDRin, ALUout, ADDERout, ADDERin1, ADDERin2, SR1_OUT, MDR_INT, DRMUX, SR2MUX, SR2_OUT;
+		logic [15:0]  BUS, PCin, PCand1, MDRin, ALUout, ADDERout, ADDERin1, ADDERin2, SR1_OUT, MDR_INT, SR2MUX, SR2_OUT;	//making DRMUX input
 		logic [15:0]  SEXT11;
 		logic [15:0]  SEXT9;
 		logic [15:0]  SEXT6;
