@@ -69,6 +69,15 @@ module datapath(
 				N = BUS[15];
 				P = !BUS[15] & !Z;
 		
+		
 			end 
+			
+		always_ff @ (posedge Clk)
+			begin
+			
+				if(LD_LED)
+					LED = IR[11:0];
+				else
+					LED = LED;
 		
 		endmodule
