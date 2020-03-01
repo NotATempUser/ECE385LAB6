@@ -48,6 +48,16 @@ module datapath(
 		reg_1 BEN1( .Clk(Clk), .Reset(Reset_ah), .Load(LD_BEN), .D(BEN_in), .Data_Out(BEN));
 		
 	//assign BEN_in = IR[11] & N_out + IR[10] & Z_out + IR[9] & P_out;
+	
+	
+		always_comb
+			begin
+				
+				if(BUS == 16'b0000000000000000)
+					Z = 1'b1;
+				else
+					Z = 1'b0;
+			end 
 		
 		always_comb
 			begin
@@ -62,16 +72,12 @@ module datapath(
 				
 				BEN_in = IR[11] & N_out | IR[10] & Z_out | IR[9] & P_out;
 				
-				if(BUS == 16'b0000000000000000)
-					Z = 1'b1;
-				else
-					Z = 1'b0;
-		
 				N = BUS[15];
 				P = !BUS[15] & !Z;
 		
 		
 			end 
+			
 			
 		always_ff @ (posedge Clk)
 			begin
