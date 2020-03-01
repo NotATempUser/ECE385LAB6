@@ -12,7 +12,7 @@ module ALU(input logic [1:0] ALUK,
 	
 		case (SR2MUX)										
 			default	: B = SR2 ;
-			1'b1		: B = { {10{IR[5]}}, IR[5:0]};
+			1'b1		: B = { {11{IR[4]}}, IR[4:0]};
 		endcase
 	
 		case (ALUK)
