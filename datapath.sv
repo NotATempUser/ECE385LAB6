@@ -7,7 +7,7 @@ module datapath(
 		input
 		logic [15:0] MDR_In,
 		output
-		logic [15:0]IR, PC, MAR, MDR
+		logic [15:0]IR, PC, MAR, MDR,
 		output[11:0] LED
 		);
 

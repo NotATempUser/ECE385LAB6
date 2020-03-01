@@ -18,7 +18,7 @@ module Reg_File (input logic SR1, DR, LD_REG, Clk, Reset,		//NOTE: Reset and LD_
 		
 		
 		case (SR1)										//SR1MUX
-		1'b0		: SR1_Select = IR[8:6];
+		1'b1		: SR1_Select = IR[8:6];
 		default	: SR1_Select = IR[11:9];
 		endcase
 		
