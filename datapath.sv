@@ -84,6 +84,8 @@ module datapath(
 			
 				if(LD_LED)
 					LED <= IR[11:0];
+				else if(Reset_ah)
+					LED <= 12'b000000000000;
 	
 			end
 		endmodule
