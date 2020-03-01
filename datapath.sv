@@ -23,7 +23,7 @@ module datapath(
 		reg_16 MDR1 (.Clk(Clk), .Reset(Reset_ah), .Load(LD_MDR), .D(MDR_INT), .Data_Out(MDR));
 		reg_16 MAR1 (.Clk(Clk), .Reset(Reset_ah), .Load(LD_MAR), .D(BUS), .Data_Out(MAR));
 		
-		always_ff @(posedge Clk)
+		always_comb
 			begin
 			
 				PCand1 = PC + 1;
