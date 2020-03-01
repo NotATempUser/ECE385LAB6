@@ -15,7 +15,7 @@ module datapath(
 		logic [15:0]  SEXT11;
 		logic [15:0]  SEXT9;
 		logic [15:0]  SEXT6;
-		logic N, Z, P, N_out, Z_out, P_out, BEN_inS;
+		logic N, Z, P, N_out, Z_out, P_out, BEN_in;
 		
 		
 		reg_16 PC1 (.Clk(Clk), .Reset(Reset_ah), .Load(LD_PC), .D(PCin), .Data_Out(PC));
