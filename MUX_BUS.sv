@@ -2,7 +2,7 @@ module MUX_BUS (input logic [15:0] A,B,C,D,
 		  input logic GateALU, GatePC,GateMARMUX,GateMDR,
 		  output logic [15:0] Z);
 		  
-	always_comb
+	always_comb			//used to impiment effecgtivly a tristate buffer for the bus
 	begin
 	logic [3:0] S;
 	S[0] = GateALU;
